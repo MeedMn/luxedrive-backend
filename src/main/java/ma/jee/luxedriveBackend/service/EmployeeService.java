@@ -38,6 +38,7 @@ public class EmployeeService {
     public EmployeeResponse updateEmployee(Long employeeId, EmployeeRequest employeeRequest) {
         return employeeRepository.findById(employeeId)
                 .map(e -> {
+                    e.setEmail(employeeRequest.getEmail());
                     e.setAddress(employeeRequest.getAddress());
                     e.setFullName(employeeRequest.getFullName());
                     e.setPhoneNumber(employeeRequest.getPhoneNumber());

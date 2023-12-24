@@ -9,8 +9,11 @@ import ma.jee.luxedriveBackend.dto.response.UserInfos;
 import ma.jee.luxedriveBackend.entity.auth.Authority;
 import ma.jee.luxedriveBackend.entity.auth.User;
 import ma.jee.luxedriveBackend.entity.enums.Role;
+import ma.jee.luxedriveBackend.mapper.UserMapper;
 import ma.jee.luxedriveBackend.repository.RoleRepository;
 import ma.jee.luxedriveBackend.repository.UserRepository;
+import ma.jee.luxedriveBackend.service.CustomerService;
+import ma.jee.luxedriveBackend.service.EmployeeService;
 import ma.jee.luxedriveBackend.service.UserDetailsImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,13 +34,17 @@ public class AuthController {
     RoleRepository roleRepository;
     PasswordEncoder encoder;
     JwtUtils jwtUtils;
+    CustomerService customerService;
+    EmployeeService employeeService;
 
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder encoder, JwtUtils jwtUtils) {
+    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder encoder, JwtUtils jwtUtils,CustomerService customerService,EmployeeService employeeService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.encoder = encoder;
         this.jwtUtils = jwtUtils;
+        this.customerService=customerService;
+        this.employeeService=employeeService;
     }
 
     @PostMapping("/signin")
@@ -66,7 +73,14 @@ public class AuthController {
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
         User user = new User(true,signUpRequest.getFullName(),signUpRequest.getAddress(),signUpRequest.getPhoneNumber(),encoder.encode(signUpRequest.getPassword()),signUpRequest.getEmail());
-        Role userRole = Role.valueOf(signUpRequest.getAuthority().toUpperCase());
+        Role userRole = Role.valueOf("ROLE_"+signUpRequest.getAuthority().toUpperCase());
+        if(userRole!=Role.ROLE_ADMIN){
+            if(userRole == Role.ROLE_CUSTOMER){
+                customerService.createCustomer(UserMapper.UserToCustomerRequest(signUpRequest));
+            }else{
+                employeeService.createEmployee(UserMapper.UserToEmployeeRequest(signUpRequest));
+            }
+        }
         Authority authority = roleRepository.findByAuthority(userRole)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
         user.setAuthority(authority);

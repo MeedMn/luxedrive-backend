@@ -1,9 +1,14 @@
 package ma.jee.luxedriveBackend.dto.response;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import ma.jee.luxedriveBackend.entity.enums.StatusCar;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CarResponse {
     private Long id;
 

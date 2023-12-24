@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 public class EmployeeResponse {
     private Long id;
+    private String email;
     private String fullName;
     private String address;
     private String phoneNumber;

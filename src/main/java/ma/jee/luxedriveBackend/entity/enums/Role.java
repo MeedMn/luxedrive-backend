@@ -1,7 +1,7 @@
 package ma.jee.luxedriveBackend.entity.enums;
 
 public enum Role {
-    ADMIN,
-    CUSTOMER,
-    EMPLOYEE
+    ROLE_ADMIN,
+    ROLE_CUSTOMER,
+    ROLE_EMPLOYEE
 }

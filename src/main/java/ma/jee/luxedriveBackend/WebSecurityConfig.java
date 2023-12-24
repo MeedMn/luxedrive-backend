@@ -3,6 +3,7 @@ package ma.jee.luxedriveBackend;
 import ma.jee.luxedriveBackend.config.AuthEntryPointJwt;
 import ma.jee.luxedriveBackend.config.AuthTokenFilter;
 import ma.jee.luxedriveBackend.service.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,14 +21,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableMethodSecurity
 public class WebSecurityConfig {
+    @Autowired
     UserDetailsServiceImpl userDetailsService;
 
+    @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
-
-    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, AuthEntryPointJwt unauthorizedHandler) {
-        this.userDetailsService = userDetailsService;
-        this.unauthorizedHandler = unauthorizedHandler;
-    }
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -53,7 +51,6 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
@@ -72,4 +69,3 @@ public class WebSecurityConfig {
         return http.build();
     }
 }
-

@@ -31,6 +31,7 @@ public class CarService {
     }
     public CarResponse createCar(CarRequest carRequest) {
         Car car = CarMapper.CarRequestToCar(carRequest);
+        car.setStatus(StatusCar.valueOf(carRequest.getStatus()));
         Car savedCar = carRepository.save(car);
         return CarMapper.CarToCarResponse(savedCar);
     }
