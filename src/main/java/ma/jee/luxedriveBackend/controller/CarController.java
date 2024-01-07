@@ -59,6 +59,7 @@ public class CarController {
     }
 
     @PutMapping("/{carId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CarResponse> updateCar(
             @PathVariable Long carId,
             @RequestBody CarRequest carRequest) {
@@ -73,6 +74,7 @@ public class CarController {
     }
 
     @DeleteMapping("/{carId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteCar(@PathVariable Long carId) {
         try {
             return ResponseEntity.ok(carService.deleteCar(carId));

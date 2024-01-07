@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/employees")
+@CrossOrigin(origins = "*",maxAge = 3600)
 public class EmployeeController {
 
     private final EmployeeService employeeService;

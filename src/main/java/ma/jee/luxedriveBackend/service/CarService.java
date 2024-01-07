@@ -38,7 +38,12 @@ public class CarService {
     public CarResponse updateCar(Long carId, CarRequest carRequest) {
         return carRepository.findById(carId)
                 .map(c->{
+                    c.setTitle(carRequest.getTitle());
+                    c.setDescription(carRequest.getDescription());
+                    c.setImage(carRequest.getImage());
                     c.setMake(carRequest.getMake());
+                    c.setFuel(carRequest.getFuel());
+                    c.setPrice(carRequest.getPrice());
                     c.setModel(carRequest.getModel());
                     c.setYear(carRequest.getYear());
                     c.setRegistrationNumber(carRequest.getRegistrationNumber());

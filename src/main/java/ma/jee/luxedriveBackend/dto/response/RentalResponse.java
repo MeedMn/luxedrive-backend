@@ -1,9 +1,6 @@
 package ma.jee.luxedriveBackend.dto.response;
 
 import lombok.*;
-import ma.jee.luxedriveBackend.dto.request.CustomerRequest;
-import ma.jee.luxedriveBackend.entity.enums.Status;
-
 import java.time.LocalDate;
 @Data
 @Builder
@@ -15,6 +12,6 @@ public class RentalResponse {
     private LocalDate endDate;
     private double totalCost;
     private String status;
-    private CustomerRequest customer;
+    private CustomerResponse customer;
     private CarResponse car;
 }

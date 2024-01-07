@@ -20,7 +20,6 @@ import java.time.LocalDate;
 public class RentalRequest {
     private LocalDate startDate;
     private LocalDate endDate;
-    private double totalCost;
     private String status;
     private Long customer;
     private Long car;

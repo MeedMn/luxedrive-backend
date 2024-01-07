@@ -1,18 +1,21 @@
 package ma.jee.luxedriveBackend.controller;
 
 import ma.jee.luxedriveBackend.dto.request.RentalRequest;
+import ma.jee.luxedriveBackend.dto.response.ApiResponse;
 import ma.jee.luxedriveBackend.dto.response.RentalResponse;
 import ma.jee.luxedriveBackend.exception.EntityNotFoundException;
 import ma.jee.luxedriveBackend.service.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/rentals")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class RentalController {
 
     private final RentalService rentalService;
@@ -73,6 +76,17 @@ public class RentalController {
     public ResponseEntity<String> deleteRental(@PathVariable Long rentalId) {
         try {
             return ResponseEntity.ok(rentalService.deleteRental(rentalId));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @PostMapping("/{rentalId}/{status}")
+    public ResponseEntity<ApiResponse> changeStatusRental(@PathVariable Long rentalId, @PathVariable String status) {
+        try {
+            rentalService.ChangeStatus(rentalId,status);
+            return ResponseEntity.ok(new ApiResponse("Changed"));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } catch (Exception e) {

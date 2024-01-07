@@ -19,6 +19,6 @@ public class Customer {
     private String fullName;
     private String address;
     private String phoneNumber;
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
     private List<Rental> rentals;
 }

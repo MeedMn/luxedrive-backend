@@ -16,10 +16,14 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String title;
+    private String description;
+    private String image;
     private String make;
+    private String fuel;
     private String model;
     private int year;
+    private double price=0;
     private String registrationNumber;
     @Enumerated(EnumType.STRING)
     private StatusCar status;
